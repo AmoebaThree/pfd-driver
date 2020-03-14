@@ -1,0 +1,12 @@
+[Unit]
+Description=pfd-driver - PiFaceDigital driver
+
+[Service]
+ExecStart=/usr/bin/python /home/pi/zoidberg-deploy/pfd-driver/pfd-driver.py
+Environment=PYTHONUNBUFFERED=1
+Restart=on-failure
+Type=notify
+KillSignal=SIGINT
+
+[Install]
+WantedBy=default.target

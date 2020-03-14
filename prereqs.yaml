@@ -1,0 +1,6 @@
+apt:
+  - python-systemd
+pip:
+  - redis
+  - pifacedigitalio
+  - pifacecommon
