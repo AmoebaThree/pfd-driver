@@ -4,6 +4,8 @@ if __name__ == '__main__':
     import redis
     import time
 
+    input_count = 8
+
     print('Startup')
     pfd = pifacedigitalio.PiFaceDigital()
     listener = pifacedigitalio.InputEventListener(chip=pfd)
@@ -13,11 +15,11 @@ if __name__ == '__main__':
     print('Startup complete')
     systemd.daemon.notify('READY=1')
 
-    input_on = list()
-    input_off = list()
+    input_on = [None]*input_count
+    input_off = [None]*input_count
 
     try:
-        for i in range(0, 8):
+        for i in range(0, input_count):
             input_on[i] = lambda e: r.publish(
                 "pfd.input." + str(i), "input." + str(i) + ".on")
             input_on[i] = lambda e: r.publish(
@@ -32,7 +34,7 @@ if __name__ == '__main__':
         for message in p.listen():
             # If message is received, send current status
             if message.data == "*":
-                tgt_range = range(0, 8)
+                tgt_range = range(0, input_count)
             else:
                 try:
                     rangespec = int(message.data)
