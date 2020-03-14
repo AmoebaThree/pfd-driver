@@ -31,7 +31,19 @@ if __name__ == '__main__':
 
         for message in p.listen():
             # If message is received, send current status
-            for i in range(0, 8):
+            if message.data == "*":
+                tgt_range = range(0, 8)
+            else:
+                try:
+                    rangespec = int(message.data)
+                    if rangespec < 0 or rangespec > 7:
+                        tgt_range = None
+                    else:
+                        tgt_range = range(rangespec, rangespec + 1)
+                except:
+                    # Do nothing if can't parse
+                    tgt_range = range(0, 0)
+            for i in tgt_range:
                 if pfd.input_pins[i].value > 0:
                     (input_on[i])(None)
                 else:

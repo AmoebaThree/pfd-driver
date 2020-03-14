@@ -11,8 +11,10 @@ Format: \<channel> "message"
 
 **Inputs**
 
-* \<pfd.inputs> *
+* \<pfd.inputs> "*"
   * Triggers a request for status of all of the inputs
+* \<pfd.inputs> "[0:7]"
+  * Triggers a request for status for the specified input
 
 **Outputs**
 
