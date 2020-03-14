@@ -33,11 +33,11 @@ if __name__ == '__main__':
 
         for message in p.listen():
             # If message is received, send current status
-            if message.data == "*":
+            if message['data'] == "*":
                 tgt_range = range(0, input_count)
             else:
                 try:
-                    rangespec = int(message.data)
+                    rangespec = int(message['data'])
                     if rangespec < 0 or rangespec > 7:
                         tgt_range = None
                     else:
