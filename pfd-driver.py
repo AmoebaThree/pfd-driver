@@ -22,7 +22,7 @@ if __name__ == '__main__':
         for i in range(0, input_count):
             input_on[i] = lambda e, i=i: r.publish(
                 "pfd.input." + str(i), "input." + str(i) + ".on")
-            input_on[i] = lambda e, i=i: r.publish(
+            input_off[i] = lambda e, i=i: r.publish(
                 "pfd.input." + str(i), "input." + str(i) + ".off")
             listener.register(
                 i, pifacedigitalio.IODIR_FALLING_EDGE, input_on[i])
