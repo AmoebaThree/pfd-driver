@@ -51,6 +51,7 @@ if __name__ == '__main__':
                 else:
                     (input_off[i])(None)
     except:
+        p.close()
         listener.deactivate()
         pfd.deinit_board()
         print("Goodbye")
