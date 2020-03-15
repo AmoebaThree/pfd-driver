@@ -1,5 +1,5 @@
 apt:
-  - python-systemd
+  - python3-systemd
 pip:
   - redis
   - pifacedigitalio
