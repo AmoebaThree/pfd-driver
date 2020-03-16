@@ -20,8 +20,9 @@ def execute():
     input_on = [None]*input_count
     input_off = [None]*input_count
 
-    print('Startup complete')
+    r.publish('services', 'pfd.on')
     systemd.daemon.notify('READY=1')
+    print('Startup complete')
 
     try:
         for i in range(0, input_count):
@@ -56,8 +57,11 @@ def execute():
                     (input_off[i])(None)
     except:
         p.close()
+
         listener.deactivate()
         pfd.deinit_board()
+
+        r.publish('services', 'pfd.off')
         print("Goodbye")
 
 
