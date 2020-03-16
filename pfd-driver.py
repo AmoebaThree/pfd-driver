@@ -1,23 +1,27 @@
-if __name__ == '__main__':
-    import systemd.daemon
-    import pifacedigitalio
-    import redis
-    import time
+import systemd.daemon
+import pifacedigitalio
+import redis
+import time
+
+
+def execute():
+    print('Startup')
 
     input_count = 8
 
-    print('Startup')
     pfd = pifacedigitalio.PiFaceDigital()
     listener = pifacedigitalio.InputEventListener(chip=pfd)
+
     r = redis.Redis(host='192.168.0.1', port=6379,
                     db=0, decode_responses=True)
     p = r.pubsub(ignore_subscribe_messages=True)
     p.subscribe('pfd.inputs')
-    print('Startup complete')
-    systemd.daemon.notify('READY=1')
 
     input_on = [None]*input_count
     input_off = [None]*input_count
+
+    print('Startup complete')
+    systemd.daemon.notify('READY=1')
 
     try:
         for i in range(0, input_count):
@@ -33,7 +37,6 @@ if __name__ == '__main__':
         listener.activate()
 
         for message in p.listen():
-            # If message is received, send current status
             if message['data'] == "*":
                 tgt_range = range(0, input_count)
             else:
@@ -56,3 +59,7 @@ if __name__ == '__main__':
         listener.deactivate()
         pfd.deinit_board()
         print("Goodbye")
+
+
+if __name__ == '__main__':
+    execute()
