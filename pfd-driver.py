@@ -1,7 +1,6 @@
 import systemd.daemon
 import pifacedigitalio
 import redis
-import time
 
 
 def execute():
@@ -16,7 +15,7 @@ def execute():
     r = redis.Redis(host='192.168.0.1', port=6379,
                     db=0, decode_responses=True)
     p = r.pubsub(ignore_subscribe_messages=True)
-    p.psubscribe('pfd.inputs', 'pfd.outputs.?')
+    p.psubscribe('pfd.input', 'pfd.output.?')
 
     input_on = [None]*input_count
     input_off = [None]*input_count
@@ -48,7 +47,7 @@ def execute():
                       'output.' + str(i) + '.on')
 
         for message in p.listen():
-            if message['channel'] == 'pfd.inputs':
+            if message['channel'] == 'pfd.input':
                 if message['data'] == "*":
                     tgt_range = range(0, input_count)
                 else:
@@ -66,7 +65,7 @@ def execute():
                         (input_on[i])(None)
                     else:
                         (input_off[i])(None)
-            elif message['channel'].startswith('pfd.outputs.'):
+            elif message['channel'].startswith('pfd.output.'):
                 output_id = int(message['channel'][-1])
 
                 if output_id >= output_count or output_id < 0:
@@ -74,11 +73,11 @@ def execute():
 
                 if message['data'] == 'on':
                     pfd.output_pins[output_id].turn_on()
-                    r.publish('pfd.outputs.' +
+                    r.publish('pfd.output.' +
                               str(output_id) + '.status', 'output.' + str(output_id) + '.on')
                 else:
                     pfd.output_pins[output_id].turn_off()
-                    r.publish('pfd.outputs.' +
+                    r.publish('pfd.output.' +
                               str(output_id) + '.status', 'output.' + str(output_id) + '.off')
     except:
         p.close()

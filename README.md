@@ -11,14 +11,14 @@ Format: \<channel> "message"
 
 **Inputs**
 
-* \<pfd.inputs> "*"
+* \<pfd.input> "*"
   * Triggers a request for status of all of the inputs
-* \<pfd.inputs> "[0:7]"
+* \<pfd.input> "[0:7]"
   * Triggers a request for status for the specified input
 
-* \<pfd.outputs.[0:7]> "on"
+* \<pfd.output.[0:7]> "on"
   * Turn on the output at index [0:7]
-* \<pfd.outputs.[0:7]> "off"
+* \<pfd.output.[0:7]> "off"
   * Turn off the output at index [0:7]
 
 **Outputs**
@@ -32,7 +32,7 @@ Format: \<channel> "message"
   * Triggered automatically
   * Also sent when an input is provided on \<pfd.inputs> channel, if the input is off
 
-* \<pfd.output[0:7].status> "output.[0:7].on"
+* \<pfd.output.[0:7].status> "output.[0:7].on"
   * The output at index [0:7] has been turned on
-* \<pfd.output[0:7].status> "output.[0:7].off"
+* \<pfd.output.[0:7].status> "output.[0:7].off"
   * The output at index [0:7] has been turned off
