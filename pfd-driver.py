@@ -43,7 +43,7 @@ def execute():
         listener.activate()
 
         for i in range(0, output_count):
-            pfd.output_pins[i].off()
+            pfd.output_pins[i].turn_off()
             r.publish('pfd.outputs.' + str(i) + '.status', 'on')
 
         for message in p.listen():
