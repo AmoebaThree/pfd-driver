@@ -44,7 +44,7 @@ def execute():
         for i in range(0, output_count):
             pfd.output_pins[i].turn_off()
             r.publish('pfd.output.' + str(i) + '.status',
-                      'output.' + str(i) + '.on')
+                        'output.' + str(i) + '.on')
 
         for message in p.listen():
             if message['channel'] == 'pfd.input':
@@ -74,11 +74,22 @@ def execute():
                 if message['data'] == 'on':
                     pfd.output_pins[output_id].turn_on()
                     r.publish('pfd.output.' +
-                              str(output_id) + '.status', 'output.' + str(output_id) + '.on')
-                else:
+                                str(output_id) + '.status', 'output.' + str(output_id) + '.on')
+                elif message['data'] == 'off':
                     pfd.output_pins[output_id].turn_off()
                     r.publish('pfd.output.' +
-                              str(output_id) + '.status', 'output.' + str(output_id) + '.off')
+                                str(output_id) + '.status', 'output.' + str(output_id) + '.off')
+                elif message['data'] == '/':
+                    pfd.output_pins[output_id].toggle()
+                
+                if message['data'] == '?' or message['data'] == '/':
+                    pin_status = pfd.output_pins[output_id]
+                    if pin_status:
+                        r.publish('pfd.output.' +
+                                str(output_id) + '.status', 'output.' + str(output_id) + '.on')
+                    else:
+                        r.publish('pfd.output.' +
+                                str(output_id) + '.status', 'output.' + str(output_id) + '.off')
     except:
         p.close()
 

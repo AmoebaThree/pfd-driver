@@ -20,6 +20,10 @@ Format: \<channel> "message"
   * Turn on the output at index [0:7]
 * \<pfd.output.[0:7]> "off"
   * Turn off the output at index [0:7]
+* \<pfd.output.[0-7]> "/"
+  * Toggle the status of the output at index [0:7]
+* \<pfd.output.[0:7]> "?"
+  * Request the status of the output at index [0:7]
 
 **Outputs**
 
@@ -34,5 +38,7 @@ Format: \<channel> "message"
 
 * \<pfd.output.[0:7].status> "output.[0:7].on"
   * The output at index [0:7] has been turned on
+  * Triggered on a state change, or when a status is requested
 * \<pfd.output.[0:7].status> "output.[0:7].off"
   * The output at index [0:7] has been turned off
+  * Triggered on a state change, or when a status is requested
